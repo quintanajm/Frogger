@@ -14,13 +14,11 @@ import javafx.stage.Stage;
  * JavaFX App
  */
 public class App extends Application {
-    final short SCENE_HEIGHT = 480;
-    final short SCENE_WIDTH = 640;
-    
-    
-    
-    
-    
+    final short SCENE_HEIGHT = 800;
+    final short SCENE_WIDTH = 648;
+    int ranaHeight = 82;
+    int ranaWidht = 101;
+    int ranaY = 715;
     
     @Override
     public void start(Stage stage) {
@@ -30,9 +28,15 @@ public class App extends Application {
         stage.show();
         
         
-        Image image1 = new Image(getClass().getResourceAsStream("/images/background-1.png")); 
+        
+        Image image1 = new Image(getClass().getResourceAsStream("/images/carreterarana.png")); 
         ImageView imageView1 = new ImageView(image1);
-        root.getChildren().add(imageView1); 
+        root.getChildren().add(imageView1);
+        Image rana = new Image (getClass().getResourceAsStream("/images/ranilla.png"));
+        ImageView imageView2 = new ImageView(rana);
+        root.getChildren().add(imageView2);
+        imageView2.setX ((SCENE_WIDTH - ranaHeight )/2);
+        imageView2.setY(ranaY);
     }
     
 
