@@ -21,8 +21,10 @@ public class App extends Application {
     final short SCENE_WIDTH = 648;
     int ranaHeight = 82;
     int ranaWidht = 101;
-    int ranaY = 700;
-    byte ranaDirection = 0;
+    int ranaY = 680;
+    int ranaX = ((SCENE_WIDTH - ranaWidht )/2);
+    byte ranaDirectionY = 0;
+    byte ranaDirectionX = 0;
     byte ranaCurrentSpeed = 4;
     short pasos = 0;
     
@@ -50,40 +52,73 @@ public class App extends Application {
             public void handle (final KeyEvent keyEvent){
                 switch (keyEvent.getCode()) {
                     case UP:
-                        ranaDirection = -1;
+                        ranaDirectionY = -1;
                     break;
                         
                     case DOWN:
-                        ranaDirection = 1;
+                        ranaDirectionY = 1;
                     break;  
                     
+                    case LEFT:
+                        ranaDirectionX = -1;
+                        System.out.println("izq");
+                    break;
+                        
+                    case RIGHT:
+                        ranaDirectionX = 1;
+                        System.out.println("dere");
+                    break;
                 }    
             }
     });
+    
     Timeline timeline = new Timeline(
             // 0.017 ~= 60 FPS
             new KeyFrame(Duration.seconds(0.017), new EventHandler<ActionEvent>() {
                 public void handle(ActionEvent ae) {
+                    
                     imageView2.setY(ranaY);
-                    ranaY += ranaCurrentSpeed * ranaDirection;
-                    if(ranaY <= 0 || ranaY >= SCENE_HEIGHT-ranaHeight) {
-                        ranaDirection = 0;
-                        pasos++;
+                    ranaY += ranaCurrentSpeed * ranaDirectionY;
+//                  Si se mueve en Y 
+                    if (ranaDirectionY != 0){
+                    pasos++;
+                    System.out.println(pasos);
                     }
-                     if(ranaY <= 0) {
-                        ranaDirection = 0;
+                    if(ranaY <= 0 || ranaY >= SCENE_HEIGHT-ranaHeight) {
+                        ranaDirectionY = 0;
+                    }
+                    if(ranaY <= 0) {
+                        ranaDirectionY = 0;
                         ranaY = 0;
-                         System.out.println(pasos);
                     }else if (ranaY >= SCENE_HEIGHT-ranaHeight) {
-                        ranaDirection = 0;
+                        ranaDirectionY = 0;
                         ranaY = (short)(SCENE_HEIGHT-ranaHeight);
-                        pasos++;
+                    }
+//                    que se pare en cada calzada
+//                  if (pasos==37 || pasos==70 || pasos==102 || pasos==132
+                    if (pasos==32 ) {
+                        ranaDirectionY = 0;
+                        pasos = 0;
+                    }
+                    
+//                  La X de la rana
+                    imageView2.setX(ranaX);
+                    ranaX += ranaCurrentSpeed * ranaDirectionX;
+                    if(ranaX <= 0 || ranaX >= SCENE_WIDTH-ranaWidht) {
+                        ranaDirectionX = 0;
+                    }
+                     if(ranaX <= 0) {
+                        ranaDirectionX = 0;
+                        ranaX = 0;
+                    }else if (ranaX >= SCENE_WIDTH-ranaWidht) {
+                        ranaDirectionX = 0;
+                        ranaX = (short)(SCENE_WIDTH-ranaWidht); 
                     }
                 }
-            })                
-        );
-            timeline.setCycleCount(Timeline.INDEFINITE);
-        timeline.play();   
+            })  
+    );
+    timeline.setCycleCount(Timeline.INDEFINITE);
+    timeline.play();   
     }
     public static void main(String[] args) {
         launch();
