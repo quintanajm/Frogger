@@ -26,7 +26,8 @@ public class App extends Application {
     byte ranaDirectionY = 0;
     byte ranaDirectionX = 0;
     byte ranaCurrentSpeed = 4;
-    short pasos = 0;
+    short pasosY= 0;
+    short pasosX= 0;
     
     @Override
     public void start(Stage stage) {
@@ -36,16 +37,36 @@ public class App extends Application {
         stage.show();
         
         
-        
+//      Imagen carretera
         Image image1 = new Image(getClass().getResourceAsStream("/images/carreterarana.png")); 
         ImageView imageView1 = new ImageView(image1);
         root.getChildren().add(imageView1);
+        
+        
+//      Imagen rana
         Image rana = new Image (getClass().getResourceAsStream("/images/ranaa.png"));
         ImageView imageView2 = new ImageView(rana);
         root.getChildren().add(imageView2);
         imageView2.setX ((SCENE_WIDTH - ranaWidht )/2);
         imageView2.setY(ranaY);
-    
+        
+//      Imagen coches descargados
+        Image cocheverde = new Image (getClass().getResourceAsStream("/images/cocheverde.png"));
+        ImageView imageView3 = new ImageView(cocheverde);
+        root.getChildren().add(imageView3);
+        imageView3.setX ((SCENE_WIDTH - ranaWidht )/2);
+        imageView3.setY(193);
+        
+//      Rectángulo cocheverde
+      
+//        Image cochearcoiris = new Image (getClass().getResourceAsStream("/images/cochearcoiris.png"));
+//        ImageView imageView4 = new ImageView(cochearcoiris);
+//        root.getChildren().add(imageView4);
+//        imageView4.setX ((SCENE_WIDTH - ranaWidht )/2);
+//        imageView4.setY(320);
+//        Image cochearcoiris = new Image (getClass().getResourceAsStream("/images/cochearcoiris.png"));
+//        
+        
         
         
     scene.setOnKeyPressed(new EventHandler <KeyEvent> (){
@@ -81,8 +102,8 @@ public class App extends Application {
                     ranaY += ranaCurrentSpeed * ranaDirectionY;
 //                  Si se mueve en Y 
                     if (ranaDirectionY != 0){
-                    pasos++;
-                    System.out.println(pasos);
+                    pasosY++;
+                    System.out.println(pasosY);
                     }
                     if(ranaY <= 0 || ranaY >= SCENE_HEIGHT-ranaHeight) {
                         ranaDirectionY = 0;
@@ -94,16 +115,22 @@ public class App extends Application {
                         ranaDirectionY = 0;
                         ranaY = (short)(SCENE_HEIGHT-ranaHeight);
                     }
+                    
 //                    que se pare en cada calzada
 //                  if (pasos==37 || pasos==70 || pasos==102 || pasos==132
-                    if (pasos==32 ) {
+                    if (pasosY==32 ) {
                         ranaDirectionY = 0;
-                        pasos = 0;
+                        pasosY = 0;
                     }
                     
 //                  La X de la rana
                     imageView2.setX(ranaX);
                     ranaX += ranaCurrentSpeed * ranaDirectionX;
+                    
+                    if (ranaDirectionX != 0){
+                    pasosX++;
+                    System.out.println(pasosX);
+                    }
                     if(ranaX <= 0 || ranaX >= SCENE_WIDTH-ranaWidht) {
                         ranaDirectionX = 0;
                     }
@@ -113,6 +140,10 @@ public class App extends Application {
                     }else if (ranaX >= SCENE_WIDTH-ranaWidht) {
                         ranaDirectionX = 0;
                         ranaX = (short)(SCENE_WIDTH-ranaWidht); 
+                    }
+                     if (pasosX==20 ) {
+                        ranaDirectionX = 0;
+                        pasosX = 0;
                     }
                 }
             })  
