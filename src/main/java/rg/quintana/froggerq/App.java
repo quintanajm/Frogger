@@ -13,6 +13,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -33,6 +34,7 @@ public class App extends Application {
     short pasosX= 0;
     byte cochesCurrentSpeed = 4;
     int imageViewCocheVerdeX = ((SCENE_WIDTH - ranaWidht )/2);
+    int imageViewCocheArcoIrisX = ((SCENE_WIDTH - ranaWidht )/2);
     byte cocheDirectionX = -1;
     
     @Override
@@ -99,15 +101,26 @@ public class App extends Application {
         groupcocheverde.getChildren().add(rectcocheverde);  
         root.getChildren().add(groupcocheverde);
         
+        Image cochearcoiris = new Image (getClass().getResourceAsStream("/images/cochearcoiris.png"));
+        ImageView imageViewCocheArcoIris = new ImageView(cochearcoiris);
+        root.getChildren().add(imageViewCocheArcoIris);
+        imageViewCocheArcoIris.setX ((SCENE_WIDTH - ranaWidht )/2);
+        imageViewCocheArcoIris.setY(320);
+
+        //      Rectángulo rectcochearcoiris
+        Rectangle rectcochearcoiris = new Rectangle();
+        rectcochearcoiris.setWidth(185);
+        rectcochearcoiris.setHeight(91);
+        rectcochearcoiris.setX((SCENE_WIDTH - ranaWidht )/2);
+        rectcochearcoiris.setY(320);
+//        root.getChildren().add(rectcochearcoiris);
+        rectcochearcoiris.setFill(Color.RED);
         
-      
-//        Image cochearcoiris = new Image (getClass().getResourceAsStream("/images/cochearcoiris.png"));
-//        ImageView imageView4 = new ImageView(cochearcoiris);
-//        root.getChildren().add(imageView4);
-//        imageView4.setX ((SCENE_WIDTH - ranaWidht )/2);
-//        imageView4.setY(320);
-//        Image cochearcoiris = new Image (getClass().getResourceAsStream("/images/cochearcoiris.png"));
-//        
+        Group groupcochearcoiris = new Group ();
+        groupcochearcoiris.getChildren().add(imageViewCocheArcoIris);
+        groupcochearcoiris.getChildren().add(rectcochearcoiris);  
+        root.getChildren().add(groupcochearcoiris);
+        
         
         
         
@@ -194,9 +207,23 @@ public class App extends Application {
                         cocheDirectionX=-1;
                     } else if (imageViewCocheVerdeX<=0){
                         cocheDirectionX= +1;
-                    } 
+                    }
+//                    groupcochearcoiris.setLayoutX(imageViewCocheArcoIrisX);
+//                    imageViewCocheArcoIrisX +=cochesCurrentSpeed * cocheDirectionX;
+//                    if(imageViewCocheArcoIrisX>= 510){
+//                        cocheDirectionX=-1;
+//                    } else if (imageViewCocheArcoIrisX<=0){
+//                        cocheDirectionX= +1;
+//                    }
+                    
+                    Shape shapeCollision = Shape.intersect( rectrana, rectcocheverde);
+                    boolean colisionVacia = shapeCollision.getBoundsInLocal().isEmpty();
+                    if(colisionVacia == false) {
+                        System.out.println("colisiona");
+                        ranaY=680;
+                        pasosY=31;
+                    }
                 }
-                
             })  
     );
     timeline.setCycleCount(Timeline.INDEFINITE);
