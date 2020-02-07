@@ -32,10 +32,12 @@ public class App extends Application {
     byte ranaCurrentSpeed = 4;
     short pasosY= 0;
     short pasosX= 0;
-    byte cochesCurrentSpeed = 4;
+    byte cochesCurrentSpeedVerde = 3;
     int imageViewCocheVerdeX = ((SCENE_WIDTH - ranaWidht )/2);
     int imageViewCocheArcoIrisX = ((SCENE_WIDTH - ranaWidht )/2);
-    byte cocheDirectionX = -1;
+    byte cocheDirectionXVerde = -1;
+    byte cocheDirectionXArcoIris = +1;
+    byte cochesCurrentSpeedArcoIris = 3;
     
     @Override
     public void start(Stage stage) {
@@ -89,11 +91,11 @@ public class App extends Application {
         
 //      Rectángulo cocheverde
         Rectangle rectcocheverde = new Rectangle();
-        rectcocheverde.setWidth(185);
-        rectcocheverde.setHeight(91);
-//        rectcocheverde.setX((SCENE_WIDTH - ranaWidht )/2);
+        rectcocheverde.setWidth(150);
+        rectcocheverde.setHeight(73);
+//      rectcocheverde.setX((SCENE_WIDTH - ranaWidht )/2);
         rectcocheverde.setY(193);
-//        root.getChildren().add(rectcocheverde);
+//      root.getChildren().add(rectcocheverde);
         rectcocheverde.setFill(Color.TRANSPARENT);
         
         Group groupcocheverde = new Group ();
@@ -107,23 +109,75 @@ public class App extends Application {
         imageViewCocheArcoIris.setX ((SCENE_WIDTH - ranaWidht )/2);
         imageViewCocheArcoIris.setY(320);
 
-        //      Rectángulo rectcochearcoiris
+//      Rectángulo rectcochearcoiris
         Rectangle rectcochearcoiris = new Rectangle();
-        rectcochearcoiris.setWidth(185);
-        rectcochearcoiris.setHeight(91);
+        rectcochearcoiris.setWidth(150);
+        rectcochearcoiris.setHeight(73);
         rectcochearcoiris.setX((SCENE_WIDTH - ranaWidht )/2);
         rectcochearcoiris.setY(320);
 //        root.getChildren().add(rectcochearcoiris);
-        rectcochearcoiris.setFill(Color.RED);
+        rectcochearcoiris.setFill(Color.TRANSPARENT);
         
         Group groupcochearcoiris = new Group ();
         groupcochearcoiris.getChildren().add(imageViewCocheArcoIris);
         groupcochearcoiris.getChildren().add(rectcochearcoiris);  
         root.getChildren().add(groupcochearcoiris);
         
+//      Rectángulo rectcochearcoiris
+        Rectangle rectcocheinventado = new Rectangle();
+        Rectangle rectcocheinventadoluzarriba = new Rectangle();
+        Rectangle rectcocheinventadoluzabajo = new Rectangle();
+        Rectangle rectcocheinventadoluzfrenoarriba = new Rectangle();
+        Rectangle rectcocheinventadoluzfrenoabajo = new Rectangle();
+        Rectangle rectcocheinventadocristaldelante = new Rectangle();
+
+        
+        rectcocheinventado.setWidth(150);
+        rectcocheinventado.setHeight(73);
+        rectcocheinventadoluzarriba.setWidth(7);
+        rectcocheinventadoluzarriba.setHeight(10);
+        rectcocheinventadoluzabajo.setWidth(7);
+        rectcocheinventadoluzabajo.setHeight(10);
+        rectcocheinventadoluzfrenoarriba.setWidth(7);
+        rectcocheinventadoluzfrenoarriba.setHeight(10);
+        rectcocheinventadoluzfrenoabajo.setWidth(7);
+        rectcocheinventadoluzfrenoabajo.setHeight(10);
+        rectcocheinventadocristaldelante.setWidth(20);
+        rectcocheinventadocristaldelante.setHeight(45);
         
         
         
+        rectcocheinventado.setX((SCENE_WIDTH - ranaWidht )/2);
+        rectcocheinventado.setY(450);
+        rectcocheinventadoluzarriba.setX((SCENE_WIDTH - ranaWidht )/2);
+        rectcocheinventadoluzarriba.setY(460);
+        rectcocheinventadoluzabajo.setX((SCENE_WIDTH - ranaWidht )/2);
+        rectcocheinventadoluzabajo.setY(503);
+        rectcocheinventadoluzfrenoarriba.setX (((SCENE_WIDTH + ranaWidht )/2)+(15));
+        rectcocheinventadoluzfrenoarriba.setY(450);
+        rectcocheinventadoluzfrenoabajo.setX (((SCENE_WIDTH + ranaWidht )/2)+(15));
+        rectcocheinventadoluzfrenoabajo.setY(513);
+        rectcocheinventadocristaldelante.setX (((SCENE_WIDTH - ranaWidht )/2)+(30));
+        rectcocheinventadocristaldelante.setY(465);
+        
+        
+        root.getChildren().add(rectcocheinventado);
+        root.getChildren().add(rectcocheinventadoluzarriba);
+        root.getChildren().add(rectcocheinventadoluzabajo);
+        root.getChildren().add(rectcocheinventadoluzfrenoarriba);
+        root.getChildren().add(rectcocheinventadoluzfrenoabajo);
+        root.getChildren().add(rectcocheinventadocristaldelante);
+        
+        rectcocheinventado.setFill(Color.CYAN);
+        rectcocheinventadoluzarriba.setFill(Color.YELLOW);
+        rectcocheinventadoluzabajo.setFill(Color.YELLOW);
+        rectcocheinventadoluzfrenoarriba.setFill(Color.RED);
+        rectcocheinventadoluzfrenoabajo.setFill(Color.RED);
+        rectcocheinventadocristaldelante.setFill(Color.DIMGRAY);
+
+        
+        
+//      Reconocimiento de teclas
     scene.setOnKeyPressed(new EventHandler <KeyEvent> (){
             public void handle (final KeyEvent keyEvent){
                 switch (keyEvent.getCode()) {
@@ -148,6 +202,7 @@ public class App extends Application {
             }
     });
     
+//  Animación
     Timeline timeline = new Timeline(
             // 0.017 ~= 60 FPS
             new KeyFrame(Duration.seconds(0.017), new EventHandler<ActionEvent>() {
@@ -171,7 +226,7 @@ public class App extends Application {
                         ranaY = (short)(SCENE_HEIGHT-ranaHeight);
                     }
                     
-//                    que se pare en cada calzada
+//                    Que se pare en cada calzada
 //                  if (pasos==37 || pasos==70 || pasos==102 || pasos==132
                     if (pasosY==32 ) {
                         ranaDirectionY = 0;
@@ -200,25 +255,34 @@ public class App extends Application {
                         ranaDirectionX = 0;
                         pasosX = 0;
                     }
-                     
+//                    Movimiento del coche verde
                     groupcocheverde.setLayoutX(imageViewCocheVerdeX);
-                    imageViewCocheVerdeX +=cochesCurrentSpeed * cocheDirectionX;
+                    imageViewCocheVerdeX +=cochesCurrentSpeedVerde * cocheDirectionXVerde;
                     if(imageViewCocheVerdeX>= 510){
-                        cocheDirectionX=-1;
+                        cocheDirectionXVerde=-1;
                     } else if (imageViewCocheVerdeX<=0){
-                        cocheDirectionX= +1;
+                        cocheDirectionXVerde= +1;
                     }
-//                    groupcochearcoiris.setLayoutX(imageViewCocheArcoIrisX);
-//                    imageViewCocheArcoIrisX +=cochesCurrentSpeed * cocheDirectionX;
-//                    if(imageViewCocheArcoIrisX>= 510){
-//                        cocheDirectionX=-1;
-//                    } else if (imageViewCocheArcoIrisX<=0){
-//                        cocheDirectionX= +1;
-//                    }
-                    
-                    Shape shapeCollision = Shape.intersect( rectrana, rectcocheverde);
-                    boolean colisionVacia = shapeCollision.getBoundsInLocal().isEmpty();
-                    if(colisionVacia == false) {
+//                    Movimiento del coche arco iris
+                    groupcochearcoiris.setLayoutX(imageViewCocheArcoIrisX);
+                    imageViewCocheArcoIrisX +=cochesCurrentSpeedArcoIris * cocheDirectionXArcoIris;
+                    if(imageViewCocheArcoIrisX>= 250){
+                        cocheDirectionXArcoIris=-1;
+                    } else if (imageViewCocheArcoIrisX<=-270){
+                        cocheDirectionXArcoIris= +1;
+                    }
+//                    Colisión entre la rana y el coche verde
+                    Shape shapeCollisionVerde = Shape.intersect( rectrana, rectcocheverde);
+                    boolean colisionVaciaVerde = shapeCollisionVerde.getBoundsInLocal().isEmpty();
+                    if(colisionVaciaVerde == false) {
+                        System.out.println("colisiona");
+                        ranaY=680;
+                        pasosY=31;
+                    }
+//                    Colisión entre la rana y el coche arco iris
+                    Shape shapeCollisionArcoIris = Shape.intersect( rectrana, rectcochearcoiris);
+                    boolean colisionVaciaArcoIris = shapeCollisionArcoIris.getBoundsInLocal().isEmpty();
+                    if(colisionVaciaArcoIris == false) {
                         System.out.println("colisiona");
                         ranaY=680;
                         pasosY=31;
