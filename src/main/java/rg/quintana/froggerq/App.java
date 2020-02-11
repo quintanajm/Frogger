@@ -5,15 +5,22 @@ import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import static javafx.scene.paint.Color.RED;
+import static javafx.scene.paint.Color.WHITE;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -24,8 +31,8 @@ public class App extends Application {
     final short SCENE_HEIGHT = 800;
     final short SCENE_WIDTH = 648;
     int ranaHeight = 70;
-    int ranaWidht = 70;
-    int ranaY = 680;
+    int ranaWidht = 80;
+    int ranaY = 700;
     int ranaX = ((SCENE_WIDTH - ranaWidht )/2);
     byte ranaDirectionY = 0;
     byte ranaDirectionX = 0;
@@ -44,6 +51,10 @@ public class App extends Application {
     byte cochesCurrentSpeedArcoIris = 3;
     byte cochesCurrentSpeedInventado = 2;
     byte cochesCurrentSpeedAzul = 1;
+    final short TEXT_SIZE = 40;
+    
+    int score = 0;
+    Label label = new Label();
     
     @Override
     public void start(Stage stage) {
@@ -72,8 +83,8 @@ public class App extends Application {
         rectrana.setHeight(ranaHeight);
 //        rectrana.setX(ranaX);
 //        rectrana.setY(ranaY);
-        root.getChildren().add(rectrana);
-        rectrana.setFill(Color.RED);
+//        root.getChildren().add(rectrana);
+        rectrana.setFill(Color.TRANSPARENT);
         
         Group grouprana = new Group ();
         grouprana.getChildren().add(imageViewRana);
@@ -206,6 +217,22 @@ public class App extends Application {
         groupcocheazul.getChildren().add(rectcocheazul);  
         root.getChildren().add(groupcocheazul);
         
+//      Puntuaciones
+        label.relocate(10, 8);
+        label.setTextFill(RED);
+//        HACER LO DEL STACK PANE
+        label.setFont(Font.font(TEXT_SIZE));
+        root.getChildren().add(label);
+        
+//        
+//        HBox paneScores = new HBox ();
+//        paneScores.setf;
+//        paneScores.setTranslateY(8);
+//        paneScores.setAlignment(Pos.CENTER);
+//        root.getChildren().add(paneScores);
+
+
+        
         
 //      Reconocimiento de teclas
     scene.setOnKeyPressed(new EventHandler <KeyEvent> (){
@@ -237,6 +264,8 @@ public class App extends Application {
             // 0.017 ~= 60 FPS
             new KeyFrame(Duration.seconds(0.017), new EventHandler<ActionEvent>() {
                 public void handle(ActionEvent ae) {
+                    
+                    label.setText("SCORE=  " + score);
                     
                     grouprana.setLayoutY(ranaY);
                     ranaY += ranaCurrentSpeed * ranaDirectionY;
@@ -322,7 +351,7 @@ public class App extends Application {
                     boolean colisionVaciaVerde = shapeCollisionVerde.getBoundsInLocal().isEmpty();
                     if(colisionVaciaVerde == false) {
                         System.out.println("colisionaVerde");
-                        ranaY=680;
+                        ranaY=700;
                         pasosY=31;
                     }
 //                    Colisión entre la rana y el coche arco iris
@@ -330,7 +359,7 @@ public class App extends Application {
                     boolean colisionVaciaArcoIris = shapeCollisionArcoIris.getBoundsInLocal().isEmpty();
                     if(colisionVaciaArcoIris == false) {
                         System.out.println("colisionaArcoIris");
-                        ranaY=680;
+                        ranaY=700;
                         pasosY=31;
                     }
 //                  Colisión entre la rana y el coche inventado
@@ -338,7 +367,7 @@ public class App extends Application {
                     boolean colisionVaciaInventado = shapeCollisionInventado.getBoundsInLocal().isEmpty();
                     if(colisionVaciaInventado == false) {
                         System.out.println("colisionaInventado");
-                        ranaY=680;
+                        ranaY=700;
                         pasosY=31;
                     }
 //                  Colisión entre la rana y el coche azul
@@ -346,7 +375,7 @@ public class App extends Application {
                     boolean colisionVaciaAzul = shapeCollisionAzul.getBoundsInLocal().isEmpty();
                     if(colisionVaciaAzul == false) {
                         System.out.println("colisionaAzul");
-                        ranaY=680;
+                        ranaY=700;
                         pasosY=31;
                     }    
                 }
