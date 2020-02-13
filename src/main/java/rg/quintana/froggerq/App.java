@@ -5,19 +5,18 @@ import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Pos;
+import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.Background;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import static javafx.scene.paint.Color.RED;
-import static javafx.scene.paint.Color.WHITE;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import javafx.scene.text.Font;
@@ -224,12 +223,6 @@ public class App extends Application {
         label.setFont(Font.font(TEXT_SIZE));
         root.getChildren().add(label);
         
-//        
-//        HBox paneScores = new HBox ();
-//        paneScores.setf;
-//        paneScores.setTranslateY(8);
-//        paneScores.setAlignment(Pos.CENTER);
-//        root.getChildren().add(paneScores);
 
 
         
@@ -267,12 +260,33 @@ public class App extends Application {
                     
                     label.setText("SCORE=  " + score);
                     
+                        HBox hbox = new HBox();
+                            hbox.setPadding(new Insets(15, 12, 15, 12));
+                            hbox.setSpacing(10);
+                            hbox.setStyle("-fx-background-color: #336699;");
+
+                            Button buttonCurrent = new Button("NEXT LEVEL");
+                            buttonCurrent.setPrefSize(100, 20);
+
+
+                            hbox.setTranslateX((SCENE_WIDTH)/2-100);
+                            hbox.setTranslateY((SCENE_HEIGHT)/2);
+                            Label label = new Label("ENHORABUENA");
+                            
+                            
+                            hbox.getChildren().addAll(label,buttonCurrent);
+                            
+                            
+                            root.getChildren().add(hbox);
+                            hbox.setVisible(false);
+                    
+                    
                     grouprana.setLayoutY(ranaY);
                     ranaY += ranaCurrentSpeed * ranaDirectionY;
 //                  Si se mueve en Y 
                     if (ranaDirectionY != 0){
-                    pasosY++;
-                    System.out.println(pasosY);
+                        pasosY++;
+                        System.out.println("pasos: " + pasosY);
                     }
                     if(ranaY <= 0 || ranaY >= SCENE_HEIGHT-ranaHeight) {
                         ranaDirectionY = 0;
@@ -284,12 +298,12 @@ public class App extends Application {
                         ranaDirectionY = 0;
                         ranaY = (short)(SCENE_HEIGHT-ranaHeight);
                     }
-                            
 //                    Que se pare en cada calzada
-//                  if (pasos==37 || pasos==70 || pasos==102 || pasos==132
+//                  if (pasos==32 || pasos==67 || pasos==112 || pasos==125
                     if (pasosY==32 ) {
                         ranaDirectionY = 0;
                         pasosY = 0;
+                        score++;
                     }
                     
 //                  La X de la rana
@@ -298,7 +312,7 @@ public class App extends Application {
                     
                     if (ranaDirectionX != 0){
                     pasosX++;
-                    System.out.println(pasosX);
+                        System.out.println("pasosX: " + pasosX);
                     }
                     if(ranaX <= 0 || ranaX >= SCENE_WIDTH-ranaWidht) {
                         ranaDirectionX = 0;
@@ -313,6 +327,7 @@ public class App extends Application {
                      if (pasosX==20 ) {
                         ranaDirectionX = 0;
                         pasosX = 0;
+                        
                     }
 //                    Movimiento del coche verde
                     groupcocheverde.setLayoutX(imageViewCocheVerdeX);
@@ -353,6 +368,8 @@ public class App extends Application {
                         System.out.println("colisionaVerde");
                         ranaY=700;
                         pasosY=31;
+                        score=0;
+                        
                     }
 //                    Colisión entre la rana y el coche arco iris
                     Shape shapeCollisionArcoIris = Shape.intersect( rectrana, rectcochearcoiris);
@@ -361,6 +378,7 @@ public class App extends Application {
                         System.out.println("colisionaArcoIris");
                         ranaY=700;
                         pasosY=31;
+                        score=0;
                     }
 //                  Colisión entre la rana y el coche inventado
                     Shape shapeCollisionInventado = Shape.intersect( rectrana, rectcocheinventado);
@@ -369,6 +387,7 @@ public class App extends Application {
                         System.out.println("colisionaInventado");
                         ranaY=700;
                         pasosY=31;
+                        score=0;
                     }
 //                  Colisión entre la rana y el coche azul
                     Shape shapeCollisionAzul = Shape.intersect( rectrana, rectcocheazul);
@@ -377,7 +396,9 @@ public class App extends Application {
                         System.out.println("colisionaAzul");
                         ranaY=700;
                         pasosY=31;
-                    }    
+                        score=0;
+                    }
+
                 }
             })  
     );
